@@ -789,3 +789,8 @@ html {
 .login-box.loaded {
   will-change: auto;
 }
+
+
+.espaceador{
+  margin: 10px;
+}
