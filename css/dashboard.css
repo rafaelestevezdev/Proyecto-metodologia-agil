@@ -83,6 +83,25 @@ body {
   gap: 1rem;
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.dashboard-logo {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+}
+
+.dashboard-logo:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
 .dashboard-header h1 {
   font-size: var(--font-size-3xl);
   font-weight: 700;
@@ -564,6 +583,10 @@ body {
   .calc-inputs {
     gap: 1rem;
   }
+
+  .dashboard-logo {
+    height: 50px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -599,6 +622,10 @@ body {
 
   .chart-labels span {
     width: 20px;
+  }
+
+  .dashboard-logo {
+    height: 40px;
   }
 }
 
