@@ -487,19 +487,58 @@
       </div>
     </div>
 
-    <script>
-      // Obtener datos del usuario
-      const userData = JSON.parse(sessionStorage.getItem("loggedUser"));
+    <!-- Scripts del sistema de autenticación -->
+    <script type="module">
+      import {
+        getCurrentUser,
+        isAuthenticated,
+        logoutUser,
+      } from "./js/auth.js";
 
-      if (!userData) {
-        // Si no hay sesión, redirigir al login
-        window.location.href = "login.html";
-      } else {
+      // Verificar autenticación al cargar
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!isAuthenticated()) {
+          alert("⚠️ Acceso denegado. Redirigiendo al login...");
+          window.location.href = "login.html";
+          return;
+        }
+
+        const userData = getCurrentUser();
+        if (!userData) {
+          alert("❌ Error al obtener datos del usuario.");
+          window.location.href = "login.html";
+          return;
+        }
+
         // Mostrar nombre del usuario
-        document.getElementById("userName").textContent =
-          userData.name || userData.username;
-      }
+        const userNameElement = document.getElementById("userName");
+        if (userNameElement) {
+          userNameElement.textContent = userData.username;
+        }
 
+        // Verificar si es admin
+        if (userData.role !== "admin") {
+          alert(
+            "⚠️ Este dashboard es solo para administradores. Redirigiendo..."
+          );
+          window.location.href = "dashboard-simple.html";
+          return;
+        }
+
+        // Configurar logout si existe el botón
+        const logoutBtn = document.querySelector('[onclick="logout()"]');
+        if (logoutBtn) {
+          logoutBtn.onclick = function () {
+            if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+              logoutUser();
+              window.location.href = "login.html";
+            }
+          };
+        }
+      });
+    </script>
+
+    <script>
       // Crear partículas de éxito al cargar
       function createParticles() {
         const container = document.getElementById("particles");

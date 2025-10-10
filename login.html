@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Sistema de Acceso</title>
+    <!-- Fuente amigable de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome para iconos -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Contenedor principal del login -->
+    <div class="login-container">
+      <div class="login-box">
+        <!-- Título del formulario -->
+        <h2 class="login-title">Bienvenido</h2>
+
+        <!-- Formulario de login -->
+        <form id="loginForm" class="login-form" novalidate>
+          <!-- Campo de usuario -->
+          <div class="input-group">
+            <i class="fas fa-user input-icon"></i>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Nombre de usuario"
+              required
+            />
+            <div class="validation-message" id="usernameValidation"></div>
+          </div>
+
+          <!-- Campo de contraseña -->
+          <div class="input-group">
+            <i class="fas fa-lock input-icon"></i>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Contraseña"
+              required
+            />
+            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+          </div>
+
+          <!-- Mensaje de error -->
+          <div id="errorMessage" class="error-message hidden"></div>
+
+          <!-- Botón de envío -->
+          <button type="submit" class="login-btn">
+            <i class="fas fa-sign-in-alt"></i>
+            Iniciar Sesión
+          </button>
+        </form>
+
+        <!-- Enlace de registro -->
+        <div class="register-link">
+          <p>¿No tienes una cuenta? <a href="register.html">Regístrate</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts de inicialización y desarrollo -->
+    <script type="module" src="js/dev-init.js"></script>
+    <!-- Enlace al script JavaScript -->
+    <script type="module" src="js/login.js"></script>
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>

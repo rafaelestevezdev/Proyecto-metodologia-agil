@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Panel de Usuario</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      .dashboard-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        font-family: "Poppins", sans-serif;
+      }
+      .dashboard-header {
+        background: linear-gradient(135deg, #87ceeb, #5dade2);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      .user-info {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      .dashboard-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+      }
+      .action-btn {
+        background: #87ceeb;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .action-btn:hover {
+        background: #5dade2;
+        transform: translateY(-2px);
+      }
+      .logout-btn {
+        background: #e74c3c;
+      }
+      .logout-btn:hover {
+        background: #c0392b;
+      }
+      .status-indicator {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background: #27ae60;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <div class="dashboard-header">
+        <h1><i class="fas fa-tachometer-alt"></i> Panel de Usuario</h1>
+        <p>Bienvenido de vuelta, has iniciado sesión correctamente</p>
+      </div>
+
+      <div class="user-info">
+        <h3><i class="fas fa-user"></i> Información de Usuario</h3>
+        <div id="userDisplay">
+          <p>
+            <i class="fas fa-spinner fa-spin"></i> Cargando información del
+            usuario...
+          </p>
+        </div>
+
+        <div
+          style="
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+          "
+        >
+          <p>
+            <span class="status-indicator"></span
+            ><strong>Estado:</strong> Sesión activa
+          </p>
+          <p>
+            <i class="fas fa-clock"></i> <strong>Última actividad:</strong>
+            <span id="loginTime">Calculando...</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="dashboard-actions">
+        <button class="action-btn" onclick="refreshUserInfo()">
+          <i class="fas fa-sync-alt"></i>
+          Actualizar Info
+        </button>
+        <button class="action-btn" onclick="showUserStats()">
+          <i class="fas fa-chart-bar"></i>
+          Ver Estadísticas
+        </button>
+        <button class="action-btn logout-btn" id="logoutButton">
+          <i class="fas fa-sign-out-alt"></i>
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+
+    <script type="module">
+      import {
+        getCurrentUser,
+        isAuthenticated,
+        logoutUser,
+      } from "./js/auth.js";
+
+      // Verificar autenticación al cargar la página
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!isAuthenticated()) {
+          alert("⚠️ Tu sesión ha expirado. Redirigiendo al login...");
+          window.location.href = "login.html";
+          return;
+        }
+
+        // Obtener datos del usuario actual
+        const currentUser = getCurrentUser();
+        if (!currentUser) {
+          alert(
+            "❌ Error al obtener datos del usuario. Redirigiendo al login..."
+          );
+          window.location.href = "login.html";
+          return;
+        }
+
+        // Mostrar información del usuario
+        displayUserInfo(currentUser);
+
+        // Configurar botón de logout
+        const logoutButton = document.getElementById("logoutButton");
+        if (logoutButton) {
+          logoutButton.addEventListener("click", function () {
+            if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+              logoutUser();
+              alert("✅ Sesión cerrada correctamente");
+              window.location.href = "login.html";
+            }
+          });
+        }
+      });
+
+      function displayUserInfo(user) {
+        const userDisplay = document.getElementById("userDisplay");
+        const loginTimeElement = document.getElementById("loginTime");
+
+        if (userDisplay) {
+          userDisplay.innerHTML = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+              <div>
+                <p><i class="fas fa-user"></i> <strong>Usuario:</strong> ${
+                  user.username
+                }</p>
+                <p><i class="fas fa-envelope"></i> <strong>Email:</strong> ${
+                  user.email
+                }</p>
+              </div>
+              <div>
+                <p><i class="fas fa-shield-alt"></i> <strong>Rol:</strong> 
+                  <span style="background: ${
+                    user.role === "admin" ? "#e74c3c" : "#27ae60"
+                  }; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">
+                    ${user.role === "admin" ? "ADMINISTRADOR" : "USUARIO"}
+                  </span>
+                </p>
+                <p><i class="fas fa-calendar-alt"></i> <strong>Registrado:</strong> ${new Date().toLocaleDateString()}</p>
+              </div>
+            </div>
+          `;
+        }
+
+        if (loginTimeElement && user.loginTime) {
+          loginTimeElement.textContent = new Date(
+            user.loginTime
+          ).toLocaleString();
+        }
+      }
+
+      // Funciones globales para los botones
+      window.refreshUserInfo = function () {
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+          displayUserInfo(currentUser);
+          alert("✅ Información actualizada correctamente");
+        }
+      };
+
+      window.showUserStats = function () {
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+          alert(
+            `📊 Estadísticas de ${
+              currentUser.username
+            }:\n\n✅ Sesiones activas: 1\n⏰ Tiempo conectado: ${Math.floor(
+              Math.random() * 60
+            )} minutos\n🔐 Último login: ${new Date(
+              currentUser.loginTime
+            ).toLocaleString()}`
+          );
+        }
+      };
+    </script>
+  </body>
+</html>
