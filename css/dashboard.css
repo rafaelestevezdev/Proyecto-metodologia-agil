@@ -63,6 +63,19 @@ body {
   justify-content: space-between;
 }
 
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(120, 129, 118, 0.3));
+}
+
 .sidebar-title {
   font-size: 24px;
   font-weight: 700;
@@ -70,6 +83,7 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin: 0;
 }
 
 .sidebar-toggle {

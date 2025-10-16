@@ -210,9 +210,10 @@
 
       .logo {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin-bottom: 30px;
+        gap: 24px;
         animation: logoFloat 3s ease-in-out infinite;
       }
 
@@ -222,14 +223,44 @@
           transform: translateY(0);
         }
         50% {
-          transform: translateY(-10px);
+          transform: translateY(-15px);
         }
       }
 
-      .logo svg {
-        width: 80px;
-        height: 80px;
-        filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.3));
+      .logo-image {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+        filter: drop-shadow(0 12px 32px rgba(99, 102, 241, 0.5));
+        animation: logoPulse 2.5s ease-in-out infinite;
+      }
+
+      @keyframes logoPulse {
+        0%,
+        100% {
+          filter: drop-shadow(0 12px 32px rgba(99, 102, 241, 0.5));
+          transform: scale(1);
+        }
+        50% {
+          filter: drop-shadow(0 16px 48px rgba(99, 102, 241, 0.7));
+          transform: scale(1.05);
+        }
+      }
+
+      .logo-title {
+        font-size: 3.5rem;
+        font-weight: 900;
+        letter-spacing: 8px;
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent-light) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        margin: 0;
       }
 
       .branding-column h2 {
@@ -1001,6 +1032,20 @@
           min-height: 300px;
         }
 
+        .logo {
+          gap: 20px;
+        }
+
+        .logo-image {
+          width: 160px;
+          height: 160px;
+        }
+
+        .logo-title {
+          font-size: 2.8rem;
+          letter-spacing: 6px;
+        }
+
         .branding-column h2 {
           font-size: 1.8rem;
         }
@@ -1019,19 +1064,40 @@
 
         .logo {
           display: flex;
+          flex-direction: column;
           justify-content: center;
           align-items: center;
+          gap: 16px;
         }
 
-        .logo svg {
-          width: 60px;
-          height: 60px;
+        .logo-image {
+          width: 120px;
+          height: 120px;
+        }
+
+        .logo-title {
+          font-size: 2.2rem;
+          letter-spacing: 4px;
         }
       }
 
       @media (max-width: 480px) {
         .branding-column {
           padding: 30px 20px;
+        }
+
+        .logo {
+          gap: 12px;
+        }
+
+        .logo-image {
+          width: 100px;
+          height: 100px;
+        }
+
+        .logo-title {
+          font-size: 1.8rem;
+          letter-spacing: 3px;
         }
 
         .form-column {
@@ -1071,91 +1137,12 @@
       <!-- Branding Column -->
       <div class="branding-column" id="brandingColumn">
         <div class="logo">
-          <svg
-            viewBox="0 0 200 200"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <!-- Fondo circular con gradiente -->
-            <defs>
-              <linearGradient
-                id="logoGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop
-                  offset="0%"
-                  style="stop-color: #6366f1; stop-opacity: 1"
-                />
-                <stop
-                  offset="100%"
-                  style="stop-color: #818cf8; stop-opacity: 1"
-                />
-              </linearGradient>
-            </defs>
-
-            <!-- Círculo exterior -->
-            <circle
-              cx="100"
-              cy="100"
-              r="95"
-              fill="url(#logoGradient)"
-              opacity="0.15"
-              stroke="url(#logoGradient)"
-              stroke-width="2"
-            />
-
-            <!-- Elementos de diseño - Gráfico abstracto -->
-            <g transform="translate(50, 50)">
-              <!-- Barra 1 -->
-              <rect
-                x="20"
-                y="50"
-                width="15"
-                height="50"
-                rx="7"
-                fill="url(#logoGradient)"
-                opacity="0.8"
-              />
-              <!-- Barra 2 -->
-              <rect
-                x="45"
-                y="30"
-                width="15"
-                height="70"
-                rx="7"
-                fill="url(#logoGradient)"
-              />
-              <!-- Barra 3 -->
-              <rect
-                x="70"
-                y="45"
-                width="15"
-                height="55"
-                rx="7"
-                fill="url(#logoGradient)"
-                opacity="0.8"
-              />
-
-              <!-- Punto decorativo superior -->
-              <circle cx="100" cy="10" r="5" fill="url(#logoGradient)" />
-            </g>
-
-            <!-- Texto o elemento adicional -->
-            <text
-              x="100"
-              y="160"
-              font-size="28"
-              font-weight="bold"
-              text-anchor="middle"
-              fill="url(#logoGradient)"
-              font-family="Poppins, sans-serif"
-            >
-              NEXUS
-            </text>
-          </svg>
+          <img
+            src="assets/logo/nexus.png"
+            alt="Nexus Logo"
+            class="logo-image"
+          />
+          
         </div>
       </div>
 
