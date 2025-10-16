@@ -1,4 +1,4 @@
-import { loginUser } from "./auth.js";
+import { loginUser, getCurrentUser } from "./auth.js";
 import { togglePasswordVisibility } from "./utils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -27,11 +27,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const result = loginUser(username, password);
 
     if (result.success) {
-      showSuccess(result.message + " Redirecting...");
+      showSuccess(result.message + " Redirigiendo...");
 
-      // Redirect to modern dashboard (works for both admin and regular users)
+      // Get user role and redirect accordingly
       setTimeout(() => {
-        window.location.href = "dashboard-modern.html"; // Modern dashboard for all users
+        const user = getCurrentUser();
+        if (user && user.role === "admin") {
+          window.location.href = "dashboard.html";
+        } else {
+          window.location.href = "tienda-productos.html";
+        }
       }, 1000);
     } else {
       showError(result.message);

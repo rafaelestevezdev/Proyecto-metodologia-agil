@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil Moderno - Previsualización</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #0a0e27 100%);
+        color: #f1f5f9;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 32px;
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .feature-card {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.1) 0%,
+          rgba(168, 85, 247, 0.1) 100%
+        );
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        border-radius: 16px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        border-color: #6366f1;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.15) 0%,
+          rgba(168, 85, 247, 0.15) 100%
+        );
+      }
+
+      .feature-icon {
+        font-size: 32px;
+        margin-bottom: 12px;
+      }
+
+      .feature-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #f1f5f9;
+      }
+
+      .feature-description {
+        font-size: 14px;
+        color: #cbd5e1;
+        line-height: 1.6;
+      }
+
+      .profile-demo {
+        background: linear-gradient(135deg, #0a0e27 0%, #1a2847 100%);
+        border: 1px solid #2d4a7c;
+        border-radius: 20px;
+        padding: 40px;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .avatar-demo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .avatar-canvas {
+        width: 150px;
+        height: 150px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+      }
+
+      .profile-info-demo h2 {
+        font-size: 28px;
+        margin-bottom: 8px;
+        color: #f1f5f9;
+      }
+
+      .profile-info-demo p {
+        font-size: 14px;
+        color: #6366f1;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .profile-email {
+        color: #cbd5e1;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      .status-badge-demo {
+        display: inline-block;
+        background: #10b981;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .changes-list {
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.1) 0%,
+          rgba(34, 197, 94, 0.1) 100%
+        );
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 30px;
+      }
+
+      .changes-list h3 {
+        font-size: 18px;
+        margin-bottom: 16px;
+        color: #10b981;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .changes-list ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 12px;
+      }
+
+      .changes-list li {
+        padding: 12px;
+        background: rgba(16, 185, 129, 0.05);
+        border-radius: 8px;
+        border-left: 3px solid #10b981;
+        color: #cbd5e1;
+        font-size: 14px;
+      }
+
+      .next-steps {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.1) 0%,
+          rgba(168, 85, 247, 0.1) 100%
+        );
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        border-radius: 12px;
+        padding: 24px;
+      }
+
+      .next-steps h3 {
+        font-size: 18px;
+        margin-bottom: 16px;
+        color: #6366f1;
+      }
+
+      .next-steps ol {
+        margin-left: 20px;
+      }
+
+      .next-steps li {
+        margin-bottom: 12px;
+        color: #cbd5e1;
+        line-height: 1.6;
+      }
+
+      .button {
+        display: inline-block;
+        background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>✨ Perfil Moderno del Administrador</h1>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <div class="feature-title">Avatar Moderno</div>
+          <div class="feature-description">
+            Foto de perfil generada dinámicamente con gradiente Indigo-Púrpura y
+            las iniciales del administrador
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Información Completa</div>
+          <div class="feature-description">
+            Muestra todos los datos del administrador: nombre, email, teléfono,
+            departamento y más
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <div class="feature-title">Seguridad</div>
+          <div class="feature-description">
+            Opciones para cambiar contraseña y editar datos personales del
+            perfil
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">✅</div>
+          <div class="feature-title">Estado Online</div>
+          <div class="feature-description">
+            Indicador de estado en tiempo real con animación de pulso
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <div class="feature-title">Responsive</div>
+          <div class="feature-description">
+            Diseño completamente responsive para móviles, tablets y desktop
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-title">Modal Moderno</div>
+          <div class="feature-description">
+            Interfaz elegante con animaciones suaves y UX optimizado
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-demo">
+        <h2 style="margin-bottom: 30px; color: #6366f1">
+          Vista Previa del Perfil
+        </h2>
+        <div class="avatar-demo">
+          <canvas id="profile-canvas" class="avatar-canvas"></canvas>
+        </div>
+        <div class="profile-info-demo">
+          <h2>Administrador</h2>
+          <p>Administrador del Sistema</p>
+          <div class="profile-email">admin@sistema.local</div>
+          <div class="status-badge-demo">● En línea</div>
+        </div>
+      </div>
+
+      <div class="changes-list">
+        <h3>✓ Cambios Realizados</h3>
+        <ul>
+          <li>
+            ✅ Módulo: <strong>profile-admin-module.js</strong> - Gestión
+            completa del perfil
+          </li>
+          <li>✅ CSS: 200+ líneas de estilos modernos para el modal</li>
+          <li>✅ HTML: Vinculación del botón "Mi Perfil" al modal</li>
+          <li>✅ Avatar: Generación dinámica con Canvas API</li>
+          <li>✅ Datos: Lectura desde sessionStorage del usuario logueado</li>
+          <li>✅ Animaciones: Transiciones suaves y efectos visuales</li>
+          <li>✅ Responsividad: Adaptado a todos los tamaños de pantalla</li>
+          <li>✅ Validación: Sin errores de sintaxis en ningún archivo</li>
+        </ul>
+      </div>
+
+      <div class="next-steps">
+        <h3>🚀 Próximos Pasos</h3>
+        <ol>
+          <li>
+            <strong>Prueba el perfil:</strong> Abre el dashboard y haz clic en
+            el avatar en la esquina superior derecha
+          </li>
+          <li>
+            <strong>Selecciona "Mi Perfil":</strong> Se abrirá un modal elegante
+            con toda la información
+          </li>
+          <li>
+            <strong>Personaliza los datos:</strong> Los datos se cargan desde
+            sessionStorage del usuario logueado
+          </li>
+          <li>
+            <strong>Funciones futuras:</strong> Los botones "Editar Perfil" y
+            "Cambiar Contraseña" están listos para implementar
+          </li>
+          <li>
+            <strong>Personaliza colores:</strong> Puedes cambiar los colores del
+            gradiente modificando el módulo
+          </li>
+        </ol>
+
+        <a href="dashboard.html" class="button">→ Ir al Dashboard</a>
+      </div>
+    </div>
+
+    <script>
+      // Generar avatar con Canvas
+      function generateProfileImage() {
+        const canvas = document.getElementById("profile-canvas");
+        const ctx = canvas.getContext("2d");
+
+        const initials = "AD"; // Admin
+
+        // Gradiente de fondo moderno
+        const gradient = ctx.createLinearGradient(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+        gradient.addColorStop(0, "#6366f1"); // Indigo
+        gradient.addColorStop(1, "#a855f7"); // Púrpura
+
+        // Fondo redondeado
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.moveTo(15, 0);
+        ctx.lineTo(canvas.width - 15, 0);
+        ctx.quadraticCurveTo(canvas.width, 0, canvas.width, 15);
+        ctx.lineTo(canvas.width, canvas.height - 15);
+        ctx.quadraticCurveTo(
+          canvas.width,
+          canvas.height,
+          canvas.width - 15,
+          canvas.height
+        );
+        ctx.lineTo(15, canvas.height);
+        ctx.quadraticCurveTo(0, canvas.height, 0, canvas.height - 15);
+        ctx.lineTo(0, 15);
+        ctx.quadraticCurveTo(0, 0, 15, 0);
+        ctx.fill();
+
+        // Borde sutil
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Texto (iniciales)
+        ctx.font = "bold 60px Poppins, sans-serif";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+        ctx.shadowBlur = 10;
+        ctx.fillText(initials, canvas.width / 2, canvas.height / 2);
+      }
+
+      // Generar al cargar
+      document.addEventListener("DOMContentLoaded", generateProfileImage);
+    </script>
+  </body>
+</html>

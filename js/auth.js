@@ -9,19 +9,24 @@ const SESSION_KEY = "currentUser";
 
 /**
  * Initializes the authentication system with admin account
+ * Admin credentials are unique and protected
  */
 export function initAuth() {
   const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
 
   // Ensure admin account always exists and cannot be modified
-  const adminExists = users.find((user) => user.username === "admin");
+  const adminExists = users.find(
+    (user) => user.username === "administrator" || user.role === "admin"
+  );
   if (!adminExists) {
     users.push({
-      username: "admin",
-      password: "admin123",
+      username: "administrator",
+      password: "Admin@2025Secure",
       role: "admin",
-      email: "admin@system.com",
+      email: "admin@sistema.local",
+      fullName: "Administrador del Sistema",
       createdAt: new Date().toISOString(),
+      isSystemAdmin: true,
     });
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
   }

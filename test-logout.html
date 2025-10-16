@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test - Logout Functionality</title>
+    <style>
+      body {
+        font-family: Poppins, sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #0a0e27 100%);
+        color: #e2e8f0;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .test-container {
+        max-width: 800px;
+        margin: 40px auto;
+        background: rgba(26, 40, 71, 0.6);
+        padding: 30px;
+        border-radius: 12px;
+        border: 1px solid #2d4a7c;
+      }
+
+      h1 {
+        color: #6366f1;
+        margin-bottom: 20px;
+      }
+
+      .test-section {
+        margin: 20px 0;
+        padding: 15px;
+        background: rgba(45, 74, 124, 0.3);
+        border-radius: 8px;
+        border-left: 4px solid #6366f1;
+      }
+
+      .test-section h3 {
+        margin-top: 0;
+        color: #818cf8;
+      }
+
+      .test-result {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 4px;
+      }
+
+      .success {
+        background: rgba(16, 185, 129, 0.2);
+        color: #10b981;
+        border-left: 3px solid #10b981;
+      }
+
+      .error {
+        background: rgba(239, 68, 68, 0.2);
+        color: #ef4444;
+        border-left: 3px solid #ef4444;
+      }
+
+      .warning {
+        background: rgba(245, 158, 11, 0.2);
+        color: #f59e0b;
+        border-left: 3px solid #f59e0b;
+      }
+
+      button {
+        background: #6366f1;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin: 10px 5px 10px 0;
+      }
+
+      button:hover {
+        background: #818cf8;
+        transform: translateY(-2px);
+      }
+
+      .code {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 12px;
+        overflow-x: auto;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test-container">
+      <h1>🧪 Test - Logout Functionality</h1>
+
+      <div class="test-section">
+        <h3>1. Verificar Elementos del DOM</h3>
+        <div id="test-dom"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>2. Verificar Sesión Actual</h3>
+        <div id="test-session"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>3. Verificar Estilos CSS</h3>
+        <div id="test-styles"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>4. Prueba Manual</h3>
+        <button onclick="testToggleClick()">
+          Simular Click en Profile Toggle
+        </button>
+        <button onclick="testLogoutClick()">Simular Click en Logout Btn</button>
+        <button onclick="goToTienda()">Ir a Tienda</button>
+        <button onclick="clearSession()">Limpiar Sesión</button>
+        <div id="test-manual"></div>
+      </div>
+
+      <div class="test-section">
+        <h3>5. Crear Usuario de Prueba</h3>
+        <button onclick="createTestUser()">Crear Usuario Test</button>
+        <div id="test-create"></div>
+      </div>
+    </div>
+
+    <script>
+      // Utility function to add test results
+      function addTestResult(containerId, message, type = "success") {
+        const container = document.getElementById(containerId);
+        const div = document.createElement("div");
+        div.className = `test-result ${type}`;
+        div.textContent = message;
+        container.appendChild(div);
+      }
+
+      // Test 1: DOM Elements
+      function checkDOMElements() {
+        const elements = [
+          "profile-toggle",
+          "profile-dropdown",
+          "logout-btn",
+          "logout-modal",
+          "logout-confirm-btn",
+          "logout-cancel-btn",
+          "logoutLoadingOverlay",
+        ];
+
+        const results = document.getElementById("test-dom");
+        results.innerHTML = ""; // Clear previous results
+
+        elements.forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) {
+            addTestResult(
+              "test-dom",
+              `✓ Elemento encontrado: #${id}`,
+              "success"
+            );
+          } else {
+            addTestResult(
+              "test-dom",
+              `✗ Elemento NO encontrado: #${id}`,
+              "error"
+            );
+          }
+        });
+      }
+
+      // Test 2: Session Data
+      function checkSession() {
+        const results = document.getElementById("test-session");
+        results.innerHTML = ""; // Clear previous results
+
+        const loggedIn = sessionStorage.getItem("loggedIn");
+        const currentUser = sessionStorage.getItem("currentUser");
+
+        if (loggedIn) {
+          addTestResult(
+            "test-session",
+            `✓ Usuario logueado: ${loggedIn}`,
+            "success"
+          );
+        } else {
+          addTestResult("test-session", `✗ No hay usuario logueado`, "error");
+        }
+
+        if (currentUser) {
+          try {
+            const user = JSON.parse(currentUser);
+            addTestResult(
+              "test-session",
+              `✓ Datos de usuario: ${user.username} (${user.email})`,
+              "success"
+            );
+          } catch (e) {
+            addTestResult(
+              "test-session",
+              `✗ Error al parsear datos de usuario`,
+              "error"
+            );
+          }
+        } else {
+          addTestResult("test-session", `✗ No hay datos de usuario`, "error");
+        }
+      }
+
+      // Test 3: CSS Styles
+      function checkStyles() {
+        const results = document.getElementById("test-styles");
+        results.innerHTML = ""; // Clear previous results
+
+        const profileToggle = document.getElementById("profile-toggle");
+        if (profileToggle) {
+          const styles = window.getComputedStyle(profileToggle);
+          const display = styles.display;
+          const cursor = styles.cursor;
+
+          if (display === "flex") {
+            addTestResult(
+              "test-styles",
+              `✓ profile-toggle display: ${display}`,
+              "success"
+            );
+          } else {
+            addTestResult(
+              "test-styles",
+              `✗ profile-toggle display: ${display} (esperado: flex)`,
+              "warning"
+            );
+          }
+
+          if (cursor === "pointer") {
+            addTestResult(
+              "test-styles",
+              `✓ profile-toggle cursor: ${cursor}`,
+              "success"
+            );
+          } else {
+            addTestResult(
+              "test-styles",
+              `✗ profile-toggle cursor: ${cursor} (esperado: pointer)`,
+              "warning"
+            );
+          }
+        }
+      }
+
+      // Test 4: Manual tests
+      function testToggleClick() {
+        const results = document.getElementById("test-manual");
+        results.innerHTML =
+          '<div class="test-result warning">Verifica en la consola del navegador si se ejecutaron los listeners</div>';
+
+        const profileToggle = document.getElementById("profile-toggle");
+        const profileDropdown = document.getElementById("profile-dropdown");
+
+        if (profileToggle && profileDropdown) {
+          console.log(
+            "Antes de click - Dropdown active?",
+            profileDropdown.classList.contains("active")
+          );
+          profileToggle.click();
+          console.log(
+            "Después de click - Dropdown active?",
+            profileDropdown.classList.contains("active")
+          );
+          addTestResult(
+            "test-manual",
+            `✓ Click simulado en profile-toggle`,
+            "success"
+          );
+        } else {
+          addTestResult(
+            "test-manual",
+            `✗ No se encontraron los elementos`,
+            "error"
+          );
+        }
+      }
+
+      function testLogoutClick() {
+        const logoutBtn = document.getElementById("logout-btn");
+        const logoutModal = document.getElementById("logout-modal");
+
+        if (logoutBtn && logoutModal) {
+          console.log(
+            "Antes de click - Modal active?",
+            logoutModal.classList.contains("active")
+          );
+          logoutBtn.click();
+          console.log(
+            "Después de click - Modal active?",
+            logoutModal.classList.contains("active")
+          );
+          addTestResult(
+            "test-manual",
+            `✓ Click simulado en logout-btn, modal debería estar visible`,
+            "success"
+          );
+        } else {
+          addTestResult(
+            "test-manual",
+            `✗ No se encontraron los elementos del logout`,
+            "error"
+          );
+        }
+      }
+
+      function goToTienda() {
+        window.location.href = "tienda-productos.html";
+      }
+
+      function clearSession() {
+        sessionStorage.clear();
+        localStorage.clear();
+        addTestResult("test-manual", `✓ Sesión limpiada`, "success");
+        checkSession();
+      }
+
+      // Test 5: Create test user
+      function createTestUser() {
+        const user = {
+          username: "TestUser",
+          email: "test@example.com",
+          role: "user",
+          createdAt: new Date().toISOString(),
+        };
+
+        sessionStorage.setItem("currentUser", JSON.stringify(user));
+        sessionStorage.setItem("loggedIn", "true");
+
+        const results = document.getElementById("test-create");
+        results.innerHTML = "";
+        addTestResult(
+          "test-create",
+          `✓ Usuario de prueba creado: ${user.username}`,
+          "success"
+        );
+        checkSession();
+      }
+
+      // Run all tests on page load
+      window.addEventListener("DOMContentLoaded", () => {
+        console.log("Iniciando pruebas...");
+        checkDOMElements();
+        checkSession();
+        checkStyles();
+      });
+    </script>
+  </body>
+</html>

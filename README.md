@@ -1,153 +1,215 @@
-# 🔐 Sistema de Login y Registro
+# � Tienda de Productos Tecnológicos - Sistema de Autenticación
 
-Un sistema completo de autenticación con registro de usuarios, utilizando localStorage para almacenamiento local.
+**Proyecto educativo** - Una plataforma de e-commerce de productos tecnológicos con sistema completo de autenticación, registro de usuarios y paneles diferenciados según rol (cliente y administrador).
+
+## 📚 ¿Qué es este Proyecto?
+
+Esta es una **tienda virtual de tecnología** educativa con dos niveles de acceso:
+
+- **👥 Cliente/Usuario**: Se registra, inicia sesión y accede a su panel para explorar productos
+- **👨‍💼 Administrador**: Acceso al dashboard administrativo para gestionar productos, órdenes, usuarios y ver estadísticas
+
+### 🎓 Propósito Educativo
+
+Diseñado para aprender conceptos fundamentales:
+
+- ✅ Autenticación y autorización
+- ✅ Control de acceso por roles (RBAC)
+- ✅ Almacenamiento local (localStorage/sessionStorage)
+- ✅ Arquitectura modular y responsabilidad única
+- ✅ Validación de formularios en tiempo real
+- ✅ Gestión de sesiones seguras
+- ✅ Protección de rutas según rol
+- ✅ Interfaz responsiva moderna
+- ✅ JavaScript ES6+ y módulos
 
 ## 📁 Estructura del Proyecto
 
 ```
 login/
 ├── index.html          # Página de redirección (punto de entrada)
-├── login.html          # Página de inicio de sesión
-├── register.html       # Página de registro de usuarios
-├── dashboard.html      # Panel principal (requiere autenticación)
-├── test.html           # Página de pruebas del sistema
+├── login.html          # Experiencia unificada de login y registro
+├── dashboard.html      # Panel admin moderno con sidebar funcional
+├── tienda-productos.html # Tienda de productos para usuarios normales
 ├── css/
-│   ├── style.css       # Estilos principales
-│   └── register.css    # Estilos específicos del registro
+│   ├── style.css       # Estilos del login
+│   ├── dashboard.css   # Estilos del dashboard
+│   └── tienda-productos.css # Estilos de la tienda
 └── js/
-    ├── auth.js         # Módulo de autenticación
-    ├── login.js        # Lógica del formulario de login
-    ├── register.js     # Lógica del formulario de registro
-    ├── dashboard.js    # Lógica del dashboard
-    ├── utils.js        # Funciones utilitarias
-    ├── main.js         # Lógica compartida
-    └── dev-init.js     # Inicialización para desarrollo
+    ├── dashboard-main.js        # Orquestador principal (refactorizado)
+    ├── auth.js                  # Módulo de autenticación
+    ├── dashboard.js             # Lógica legacy del dashboard
+    └── modules/
+        └── user-shop-module.js  # Módulo de tienda de usuario
+    ├── login.js                 # Lógica del formulario de login
+    ├── utils.js                 # Funciones utilitarias
+    ├── main.js                  # Lógica compartida
+    ├── dev-init.js              # Inicialización para desarrollo
+    └── modules/                 # Módulos especializados (NUEVO)
+        ├── auth-module.js       # Autenticación (SRP)
+        ├── profile-menu-module.js
+        ├── logout-modal-module.js
+        ├── theme-module.js
+        └── sidebar-module.js    # Navegación y 5 vistas diferentes
 ```
 
-## 🚀 Cómo usar
+## 🎯 Dashboard con Sidebar Funcional
 
-### 1. Servidor Local
+El dashboard ahora cuenta con un **sidebar completamente funcional** con 5 vistas diferentes:
+
+1. **Dashboard** - KPIs, gráficos y tabla de órdenes
+2. **Analytics** - Estadísticas del sistema
+3. **Usuarios** - Gestión y estadísticas de usuarios
+4. **Contenido** - Gestión de contenidos
+5. **Configuración** - Configuración del sistema
+
+Cada vista tiene:
+
+- ✅ Contenido único y simulado
+- ✅ Tablas con datos de ejemplo
+- ✅ Gráficos interactivos (Chart.js)
+- ✅ Botones de acción
+- ✅ Diseño responsivo
+
+## 🏗️ Refactorización - Responsabilidad Única
+
+El código ha sido **completamente refactorizado** siguiendo el principio de **Single Responsibility**:
+
+| Módulo                     | Responsabilidad              | Líneas |
+| -------------------------- | ---------------------------- | ------ |
+| **auth-module.js**         | Autenticación y autorización | 42     |
+| **profile-menu-module.js** | Gestionar menú de perfil     | 68     |
+| **logout-modal-module.js** | Modal de confirmación        | 65     |
+| **theme-module.js**        | Tema claro/oscuro            | 48     |
+| **sidebar-module.js**      | Navegación y vistas          | 400+   |
+| **dashboard-main.js**      | Orquestador principal        | 27     |
+
+📖 Ver documentación completa en: **REFACTORING_MODULES.md**
+
+## 🚀 Cómo Usar
+
+### 1. Iniciar el Servidor Local
 
 ```bash
 # Navegar al directorio del proyecto
-cd /ruta/al/proyecto/login
+cd /home/rafadev/Projects/login
 
-# Iniciar servidor HTTP (Python 3)
+# Opción 1: Python 3
 python3 -m http.server 8000
 
-# O usar Node.js
+# Opción 2: Node.js
 npx http-server -p 8000
 ```
 
-### 2. Acceder a la aplicación
+Acceder a: **http://localhost:8000**
 
-- **URL principal**: http://localhost:8000
-- **Login directo**: http://localhost:8000/login.html
-- **Registro**: http://localhost:8000/register.html
-- **Pruebas**: http://localhost:8000/test.html
+### 2. Flujo de la Tienda
 
-## 👤 Usuarios de Prueba
+**Para Clientes:**
 
-El sistema crea automáticamente usuarios de prueba:
+1. Ir a la página principal (index.html)
+2. Hacer clic en **"Registrarse"** para crear una nueva cuenta
+3. Completar el formulario con usuario y contraseña
+4. **Iniciar sesión** con las credenciales registradas
+5. Acceder al **panel de usuario** para explorar productos
 
-- **admin** / **1234**
-- **user** / **user123**
-- **test** / **test**
+**Para Administradores:**
 
-## ✨ Características
+1. Ir a la página de login
+2. Usar credenciales de administrador
+3. Acceder al **dashboard admin** con sidebar funcional
+4. Gestionar productos, pedidos, usuarios y estadísticas
+
+## 👤 Credenciales de Prueba
+
+| Usuario         | Contraseña         | Rol   | Acceso             |
+| --------------- | ------------------ | ----- | ------------------ |
+| `administrator` | `Admin@2025Secure` | Admin | Dashboard completo |
+| `test`          | `test`             | User  | Panel de usuario   |
+
+**Crear nuevas cuentas:** Usar la opción "Registrarse" en la página de login (automáticamente se asigna rol "user")
+
+## ✨ Características Principales
+
+### 🛍️ Panel de Cliente
+
+- ✅ Catálogo de productos tecnológicos
+- ✅ Visualización de detalles del producto
+- ✅ Carrito de compras
+- ✅ Historial de órdenes
+- ✅ Perfil de usuario personalizado
 
 ### 🔑 Sistema de Autenticación
 
 - ✅ Registro de nuevos usuarios
-- ✅ Inicio de sesión con validación
+- ✅ Inicio de sesión seguro
 - ✅ Almacenamiento local con localStorage
-- ✅ Protección de rutas (dashboard requiere login)
+- ✅ Protección de rutas según rol
 - ✅ Sesión persistente hasta logout
+- ✅ Validación de credenciales
+
+### 📊 Panel Administrativo
+
+- ✅ Dashboard con KPIs y estadísticas
+- ✅ Gestión de productos
+- ✅ Gestión de órdenes
+- ✅ Gestión de usuarios
+- ✅ Sidebar con 5 vistas funcionales
+- ✅ Tema claro/oscuro
+- ✅ Gráficos interactivos
+- ✅ Tablas con datos de ejemplo
 
 ### 🎨 Interfaz de Usuario
 
 - ✅ Diseño responsivo y moderno
+- ✅ Paleta SAGE/RUSK/PIPE elegante
 - ✅ Validación en tiempo real
 - ✅ Indicador de fortaleza de contraseña
-- ✅ Mostrar/ocultar contraseña
-- ✅ Mensajes de error y éxito
-- ✅ Animaciones y transiciones suaves
+- ✅ Mensajes de éxito y error
+- ✅ Animaciones suaves
 
-### 🏗️ Arquitectura
+### 🏗️ Arquitectura Técnica
 
-- ✅ Estructura modular
+- ✅ Código modular (SRP)
 - ✅ Separación de responsabilidades
+- ✅ JavaScript ES6+ y módulos
 - ✅ Código limpio y comentado
-- ✅ Uso de ES6 modules
-- ✅ Manejo de errores
-
-## 📝 Uso del Sistema
-
-### Registro de Usuario
-
-1. Ir a la página de registro
-2. Ingresar nombre de usuario (mín. 3 caracteres)
-3. Ingresar contraseña (mín. 4 caracteres)
-4. Hacer clic en "Registrarse"
-5. Serás redirigido al login automáticamente
-
-### Inicio de Sesión
-
-1. Ir a la página de login
-2. Ingresar credenciales
-3. Hacer clic en "Iniciar Sesión"
-4. Serás redirigido al dashboard
-
-### Dashboard
-
-- Página protegida que requiere autenticación
-- Botón de logout para cerrar sesión
-- Redirige al login si no estás autenticado
+- ✅ Manejo robusto de errores
 
 ## 🛠️ Desarrollo
 
 ### Agregar Nuevas Funcionalidades
 
-1. **Nuevos módulos**: Crear archivos en `/js/`
+1. **Nuevos módulos**: Crear archivos en `/js/modules/`
 2. **Estilos**: Agregar en `/css/`
 3. **Páginas**: Crear archivos HTML en la raíz
 
 ### Debugging
 
-- Usar la consola del navegador para ver logs
-- La página `test.html` permite pruebas rápidas
-- Los usuarios se almacenan en localStorage del navegador
+- Abrir consola del navegador (F12) para ver logs
+- localStorage contiene los datos de usuarios y órdenes
+- sessionStorage mantiene la sesión actual
 
-### Modificar Usuarios de Prueba
+## 📝 Notas Educativas
 
-Editar el archivo `js/dev-init.js`:
+⚠️ **Este es un proyecto educativo** - Diseñado para aprender:
 
-```javascript
-const testUsers = [
-  { username: "nuevo", password: "contraseña" },
-  // ... más usuarios
-];
-```
+- **Autenticación básica**: Cómo registrar y validar usuarios
+- **Control de acceso**: Diferentes permisos según rol
+- **Almacenamiento web**: localStorage para datos persistentes
+- **Protección de rutas**: Redirecciones según autenticación
+- **Arquitectura modular**: Organización de código escalable
 
-## 🔧 Solución de Problemas
+⚠️ **No recomendado para producción sin mejoras de seguridad**:
 
-### Los usuarios no se guardan
+- Las contraseñas no están encriptadas
+- No implementa HTTPS
+- No tiene validación CSRF
+- El almacenamiento es local sin servidor backend
 
-- Verificar que localStorage esté habilitado
-- Comprobar la consola del navegador por errores
-- Usar la página de pruebas para verificar
+## 📄 Licencia
 
-### Redirecciones no funcionan
-
-- Verificar que el servidor esté corriendo
-- Comprobar las rutas de los archivos
-- Revisar la configuración de sessionStorage
-
-### Estilos no se cargan
-
-- Verificar rutas de archivos CSS
-- Comprobar que el servidor sirva archivos estáticos
-- Revisar la consola por errores 404
+Código abierto disponible para uso educativo - MIT
 
 ## 📄 Licencia
 

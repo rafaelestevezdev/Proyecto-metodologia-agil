@@ -18,9 +18,9 @@ export function checkAuth() {
  * Redirect authenticated users away from login/register pages
  */
 export function redirectIfAuthenticated() {
-  const isAuthPage =
-    window.location.pathname.includes("login.html") ||
-    window.location.pathname.includes("register.html");
+  const authPaths = ["login.html", "index.html", "/"];
+  const currentPath = window.location.pathname;
+  const isAuthPage = authPaths.some((path) => currentPath.endsWith(path));
 
   if (isAuthPage && isAuthenticated()) {
     const user = getCurrentUser();
@@ -28,7 +28,7 @@ export function redirectIfAuthenticated() {
       if (user.role === "admin") {
         window.location.href = "dashboard.html";
       } else {
-        window.location.href = "dashboard-simple.html";
+        window.location.href = "tienda-productos.html";
       }
     }
   }

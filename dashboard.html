@@ -3,614 +3,485 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - Panel de Control</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>Panel de Administración</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <style>
-      :root {
-        --color-primary: #87ceeb;
-        --color-primary-dark: #5dade2;
-        --color-secondary: #f5f5dc;
-        --color-white: #ffffff;
-        --color-black: #333333;
-        --color-success: #27ae60;
-        --color-info: #3498db;
-        --color-warning: #f39c12;
-        --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(
-          135deg,
-          var(--color-primary) 0%,
-          var(--color-secondary) 100%
-        );
-        background-attachment: fixed;
-        min-height: 100vh;
-        padding: 20px;
-        overflow-x: hidden;
-      }
-
-      /* Fondo animado */
-      body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: radial-gradient(
-            circle at 20% 50%,
-            rgba(255, 255, 255, 0.1) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 80%,
-            rgba(255, 255, 255, 0.1) 0%,
-            transparent 50%
-          );
-        pointer-events: none;
-        animation: moveBackground 20s ease-in-out infinite;
-      }
-
-      @keyframes moveBackground {
-        0%,
-        100% {
-          opacity: 0.5;
-        }
-        50% {
-          opacity: 0.8;
-        }
-      }
-
-      /* Contenedor principal */
-      .dashboard-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        position: relative;
-        z-index: 1;
-        animation: fadeInUp 0.8s ease-out;
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* Header con glassmorphism */
-      .header {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 15px;
-        padding: 40px;
-        margin-bottom: 30px;
-        box-shadow: var(--shadow-lg);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .header::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(135, 206, 235, 0.2),
-          transparent
-        );
-        animation: shimmer 3s infinite;
-      }
-
-      @keyframes shimmer {
-        0% {
-          left: -100%;
-        }
-        100% {
-          left: 100%;
-        }
-      }
-
-      .welcome-icon {
-        font-size: 80px;
-        margin-bottom: 20px;
-        animation: bounceIn 1s ease-out, float 3s ease-in-out infinite 1s;
-      }
-
-      @keyframes bounceIn {
-        0% {
-          opacity: 0;
-          transform: scale(0) rotate(-180deg);
-        }
-        50% {
-          transform: scale(1.1) rotate(10deg);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1) rotate(0deg);
-        }
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      .welcome-title {
-        color: var(--color-black);
-        font-size: 36px;
-        font-weight: 700;
-        margin-bottom: 10px;
-        animation: slideInLeft 0.8s ease-out 0.2s both;
-      }
-
-      @keyframes slideInLeft {
-        from {
-          opacity: 0;
-          transform: translateX(-50px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      .welcome-subtitle {
-        color: #666;
-        font-size: 18px;
-        margin-bottom: 10px;
-        animation: slideInRight 0.8s ease-out 0.3s both;
-      }
-
-      @keyframes slideInRight {
-        from {
-          opacity: 0;
-          transform: translateX(50px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      .user-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: linear-gradient(
-          135deg,
-          var(--color-primary),
-          var(--color-primary-dark)
-        );
-        color: white;
-        padding: 10px 20px;
-        border-radius: 50px;
-        font-weight: 500;
-        margin-top: 15px;
-        box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
-        animation: zoomIn 0.6s ease-out 0.5s both;
-      }
-
-      @keyframes zoomIn {
-        from {
-          opacity: 0;
-          transform: scale(0);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-
-      /* Grid de tarjetas */
-      .cards-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-        margin-bottom: 30px;
-      }
-
-      .card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: var(--shadow-lg);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        transition: all 0.3s ease;
-        animation: fadeInUp 0.6s ease-out both;
-      }
-
-      .card:nth-child(1) {
-        animation-delay: 0.6s;
-      }
-      .card:nth-child(2) {
-        animation-delay: 0.7s;
-      }
-      .card:nth-child(3) {
-        animation-delay: 0.8s;
-      }
-
-      .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-      }
-
-      .card-icon {
-        font-size: 48px;
-        margin-bottom: 15px;
-        display: inline-block;
-        transition: transform 0.3s ease;
-      }
-
-      .card:hover .card-icon {
-        transform: scale(1.2) rotate(5deg);
-      }
-
-      .card-title {
-        color: var(--color-black);
-        font-size: 20px;
-        font-weight: 600;
-        margin-bottom: 10px;
-      }
-
-      .card-description {
-        color: #666;
-        font-size: 14px;
-        line-height: 1.6;
-      }
-
-      .card-value {
-        font-size: 32px;
-        font-weight: 700;
-        margin-top: 15px;
-        background: linear-gradient(
-          135deg,
-          var(--color-primary),
-          var(--color-primary-dark)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      /* Botones de acción */
-      .action-buttons {
-        display: flex;
-        gap: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 30px;
-        animation: fadeInUp 1s ease-out 0.9s both;
-      }
-
-      .btn {
-        padding: 15px 30px;
-        border: none;
-        border-radius: 10px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: "Poppins", sans-serif;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .btn-primary {
-        background: linear-gradient(
-          135deg,
-          var(--color-primary),
-          var(--color-primary-dark)
-        );
-        color: white;
-      }
-
-      .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(135, 206, 235, 0.5);
-      }
-
-      .btn-secondary {
-        background: white;
-        color: var(--color-black);
-        border: 2px solid var(--color-primary);
-      }
-
-      .btn-secondary:hover {
-        background: var(--color-primary);
-        color: white;
-        transform: translateY(-2px);
-      }
-
-      /* Animación de partículas de éxito */
-      .success-particles {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 9999;
-      }
-
-      .particle {
-        position: absolute;
-        font-size: 24px;
-        animation: particleFall 3s ease-out forwards;
-      }
-
-      @keyframes particleFall {
-        0% {
-          opacity: 1;
-          transform: translateY(0) rotate(0deg);
-        }
-        100% {
-          opacity: 0;
-          transform: translateY(100vh) rotate(360deg);
-        }
-      }
-
-      /* Footer */
-      .footer {
-        text-align: center;
-        padding: 20px;
-        color: rgba(0, 0, 0, 0.6);
-        font-size: 14px;
-        animation: fadeIn 1.5s ease-out;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      /* Responsive */
-      @media (max-width: 768px) {
-        .welcome-title {
-          font-size: 28px;
-        }
-
-        .welcome-icon {
-          font-size: 60px;
-        }
-
-        .cards-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .action-buttons {
-          flex-direction: column;
-        }
-
-        .btn {
-          width: 100%;
-          justify-content: center;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="css/dashboard.css" />
   </head>
   <body>
-    <!-- Contenedor de partículas -->
-    <div class="success-particles" id="particles"></div>
-
-    <div class="dashboard-container">
-      <!-- Header -->
-      <div class="header">
-        <div class="welcome-icon">🎉</div>
-        <h1 class="welcome-title">¡Bienvenido al Dashboard!</h1>
-        <p class="welcome-subtitle">Has iniciado sesión exitosamente</p>
-        <div class="user-badge">
-          <i class="fas fa-user-circle"></i>
-          <span id="userName">Usuario</span>
-        </div>
-      </div>
-
-      <!-- Tarjetas de información -->
-      <div class="cards-grid">
-        <div class="card">
-          <div class="card-icon">📊</div>
-          <h3 class="card-title">Estadísticas</h3>
-          <p class="card-description">Visualiza tus métricas y progreso</p>
-          <div class="card-value" id="statsValue">100%</div>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">⚡</div>
-          <h3 class="card-title">Actividad</h3>
-          <p class="card-description">Revisa tu actividad reciente</p>
-          <div class="card-value" id="activityValue">24/7</div>
-        </div>
-
-        <div class="card">
-          <div class="card-icon">🎯</div>
-          <h3 class="card-title">Objetivos</h3>
-          <p class="card-description">Completa tus metas diarias</p>
-          <div class="card-value" id="goalsValue">5/5</div>
-        </div>
-      </div>
-
-      <!-- Botones de acción -->
-      <div class="action-buttons">
-        <button class="btn btn-primary" onclick="showNotification()">
-          <i class="fas fa-bell"></i>
-          Ver Notificaciones
-        </button>
-        <button class="btn btn-secondary" onclick="logout()">
-          <i class="fas fa-sign-out-alt"></i>
-          Cerrar Sesión
-        </button>
-      </div>
-
-      <!-- Footer -->
-      <div class="footer">
-        <p>Sistema de Login Avanzado - 2025 © Todos los derechos reservados</p>
-      </div>
-    </div>
-
-    <!-- Scripts del sistema de autenticación -->
-    <script type="module">
-      import {
-        getCurrentUser,
-        isAuthenticated,
-        logoutUser,
-      } from "./js/auth.js";
-
-      // Verificar autenticación al cargar
+    <script>
       document.addEventListener("DOMContentLoaded", function () {
-        if (!isAuthenticated()) {
-          alert("⚠️ Acceso denegado. Redirigiendo al login...");
-          window.location.href = "login.html";
+        const sessionData = sessionStorage.getItem("currentUser");
+        const loggedIn = sessionStorage.getItem("loggedIn");
+
+        if (!loggedIn || !sessionData) {
+          window.location.href = "index.html";
           return;
         }
 
-        const userData = getCurrentUser();
-        if (!userData) {
-          alert("❌ Error al obtener datos del usuario.");
-          window.location.href = "login.html";
+        const user = JSON.parse(sessionData);
+        if (user.role !== "admin") {
+          window.location.href = "tienda-productos.html";
           return;
-        }
-
-        // Mostrar nombre del usuario
-        const userNameElement = document.getElementById("userName");
-        if (userNameElement) {
-          userNameElement.textContent = userData.username;
-        }
-
-        // Verificar si es admin
-        if (userData.role !== "admin") {
-          alert(
-            "⚠️ Este dashboard es solo para administradores. Redirigiendo..."
-          );
-          window.location.href = "dashboard-simple.html";
-          return;
-        }
-
-        // Configurar logout si existe el botón
-        const logoutBtn = document.querySelector('[onclick="logout()"]');
-        if (logoutBtn) {
-          logoutBtn.onclick = function () {
-            if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-              logoutUser();
-              window.location.href = "login.html";
-            }
-          };
         }
       });
     </script>
 
+    <div class="dashboard-container">
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <h2 class="sidebar-title">Admin</h2>
+          <button
+            class="sidebar-toggle"
+            id="sidebar-toggle"
+            aria-label="Cerrar navegación"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <ul class="sidebar-menu">
+          <li>
+            <a href="#dashboard" class="nav-link active" data-page="dashboard"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" /></svg
+              ><span>Dashboard</span></a
+            >
+          </li>
+          <li>
+            <a href="#products" class="nav-link" data-page="products"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path
+                  d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+                /></svg
+              ><span>Productos</span></a
+            >
+          </li>
+          <li>
+            <a href="#categories" class="nav-link" data-page="categories"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" /></svg
+              ><span>Categorías</span></a
+            >
+          </li>
+          <li>
+            <a href="#orders" class="nav-link" data-page="orders"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M9 1H3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2z"
+                />
+                <path
+                  d="M21 13h-6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2z"
+                />
+                <line x1="3" y1="22" x2="3" y2="22.01" />
+                <line x1="21" y1="2" x2="21" y2="2.01" /></svg
+              ><span>Pedidos</span></a
+            >
+          </li>
+          <li>
+            <a href="#customers" class="nav-link" data-page="customers"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg
+              ><span>Clientes</span></a
+            >
+          </li>
+          <li>
+            <a href="#reports" class="nav-link" data-page="reports"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 3v18a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-5V3a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
+                />
+                <polyline points="17 17 17 1" />
+                <line x1="13" y1="5" x2="13" y2="9" /></svg
+              ><span>Reportes</span></a
+            >
+          </li>
+          <li>
+            <a href="#settings" class="nav-link" data-page="settings"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m3.08-3.08l4.24-4.24"
+                /></svg
+              ><span>Configuración</span></a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <div class="main-content">
+        <header class="header">
+          <div class="header-left">
+            <button class="mobile-nav-toggle" id="mobile-nav-toggle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M3 12h18M3 6h18M3 18h18" />
+              </svg>
+            </button>
+            <div class="search-bar">
+              <input type="text" id="search-input" placeholder="Buscar..." />
+            </div>
+          </div>
+
+          <div class="header-right">
+            <div class="profile-menu-container">
+              <button class="profile-toggle" id="profile-toggle">
+                <img
+                  src="https://i.pravatar.cc/150?u=administrator"
+                  alt="Avatar"
+                  class="profile-avatar"
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+
+              <div class="profile-dropdown" id="profile-dropdown">
+                <div class="profile-header">
+                  <img
+                    src="https://i.pravatar.cc/150?u=administrator"
+                    alt="Avatar"
+                    class="profile-avatar-large"
+                  />
+                  <div class="profile-info">
+                    <div class="profile-name" id="profile-name">
+                      Administrador
+                    </div>
+                    <div class="profile-email" id="profile-email">
+                      admin@sistema.local
+                    </div>
+                    <div class="profile-role">Admin del Sistema</div>
+                  </div>
+                </div>
+                <hr class="profile-divider" />
+                <a
+                  href="#"
+                  class="profile-menu-item"
+                  id="profile-menu-link"
+                  onclick="ProfileAdminModule.openProfileModal(); event.preventDefault();"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                  <span>Mi Perfil</span>
+                </a>
+                <a href="#" class="profile-menu-item">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="1" />
+                    <circle cx="19" cy="12" r="1" />
+                    <circle cx="5" cy="12" r="1" />
+                  </svg>
+                  <span>Configuración</span>
+                </a>
+                <hr class="profile-divider" />
+                <button class="profile-menu-item logout-item" id="logout-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+                  <span>Cerrar Sesión</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main>
+          <!-- El contenido se cargará dinámicamente aquí -->
+        </main>
+      </div>
+    </div>
+
+    <!-- Loading Overlay para Logout -->
+    <div class="loading-overlay hidden" id="logoutLoadingOverlay">
+      <div class="loader">
+        <span class="loader-ring"></span>
+        <p class="loader-text">
+          Cerrando Sesión<strong>por favor espera...</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="logout-modal">
+      <div class="modal-content logout-modal">
+        <div class="logout-modal-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="64"
+            height="64"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+        </div>
+        <div class="logout-modal-content">
+          <h2>¿Cerrar sesión?</h2>
+          <p>
+            Se perderá el acceso al panel administrativo hasta que vuelvas a
+            iniciar sesión.
+          </p>
+        </div>
+        <div class="logout-modal-footer">
+          <button class="btn btn-secondary" id="logout-cancel-btn">
+            Cancelar
+          </button>
+          <button class="btn btn-danger logout-confirm" id="logout-confirm-btn">
+            Cerrar Sesión
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="add-user-modal">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="modal-title">Agregar Nuevo Usuario</h2>
+          <button class="close-modal" id="close-modal">&times;</button>
+        </div>
+        <form id="user-form">
+          <div style="padding: 24px">
+            <div class="form-group">
+              <label for="user-name">Nombre Completo</label>
+              <input type="text" id="user-name" required />
+            </div>
+            <div class="form-group">
+              <label for="user-email">Correo Electrónico</label>
+              <input type="email" id="user-email" required />
+            </div>
+            <div class="form-group">
+              <label for="user-role">Rol</label>
+              <select id="user-role" required>
+                <option value="">Seleccionar rol</option>
+                <option value="admin">Administrador</option>
+                <option value="editor">Editor</option>
+                <option value="viewer">Viewer</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="cancel-user-btn"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Crear Usuario
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Scripts de Módulos de Página -->
+    <script src="js/pages/dashboard-page.js"></script>
+    <script src="js/pages/products-page.js"></script>
+    <script src="js/pages/categories-page.js"></script>
+    <script src="js/pages/orders-page.js"></script>
+    <script src="js/pages/customers-page.js"></script>
+    <script src="js/pages/reports-page.js"></script>
+    <script src="js/pages/settings-page.js"></script>
+
+    <!-- Scripts de Módulos -->
+    <script src="js/modules/profile-admin-module.js"></script>
+
+    <script src="js/navigation-manager.js"></script>
+
     <script>
-      // Crear partículas de éxito al cargar
-      function createParticles() {
-        const container = document.getElementById("particles");
-        const particles = ["✨", "⭐", "🌟", "💫", "🎊", "🎉"];
+      // Funcionalidad del Header y Sidebar
+      const mobileToggle = document.getElementById("mobile-nav-toggle");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarToggle = document.getElementById("sidebar-toggle");
 
-        for (let i = 0; i < 20; i++) {
-          setTimeout(() => {
-            const particle = document.createElement("div");
-            particle.className = "particle";
-            particle.textContent =
-              particles[Math.floor(Math.random() * particles.length)];
-            particle.style.left = Math.random() * 100 + "%";
-            particle.style.animationDelay = Math.random() * 0.5 + "s";
-            particle.style.animationDuration = Math.random() * 2 + 2 + "s";
-            container.appendChild(particle);
-
-            setTimeout(() => particle.remove(), 3000);
-          }, i * 100);
-        }
-      }
-
-      // Animación de contador para las tarjetas
-      function animateValue(id, start, end, duration, suffix = "") {
-        const element = document.getElementById(id);
-        const range = end - start;
-        const increment = range / (duration / 16);
-        let current = start;
-
-        const timer = setInterval(() => {
-          current += increment;
-          if (
-            (increment > 0 && current >= end) ||
-            (increment < 0 && current <= end)
-          ) {
-            current = end;
-            clearInterval(timer);
-          }
-          element.textContent = Math.round(current) + suffix;
-        }, 16);
-      }
-
-      // Mostrar notificación
-      function showNotification() {
-        alert(
-          "🔔 Tienes 3 nuevas notificaciones!\n\n✅ Login exitoso\n📊 Estadísticas actualizadas\n🎯 Nuevo objetivo disponible"
-        );
-      }
-
-      // Cerrar sesión
-      function logout() {
-        if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-          sessionStorage.removeItem("loggedUser");
-          window.location.href = "login.html";
-        }
-      }
-
-      // Ejecutar animaciones al cargar
-      window.addEventListener("load", () => {
-        createParticles();
-
-        // Animar valores de las tarjetas
-        setTimeout(() => {
-          animateValue("statsValue", 0, 100, 1500, "%");
-        }, 800);
+      mobileToggle?.addEventListener("click", () => {
+        sidebar.classList.toggle("active");
       });
 
-      // Mensaje de bienvenida personalizado
-      setTimeout(() => {
-        console.log(`👋 ¡Hola ${userData.name}!`);
-        console.log("🎉 Bienvenido al Dashboard");
-        console.log("✨ Todas las funcionalidades están disponibles");
-      }, 1000);
+      sidebarToggle?.addEventListener("click", () => {
+        sidebar.classList.remove("active");
+      });
+
+      const profileToggle = document.getElementById("profile-toggle");
+      const profileDropdown = document.getElementById("profile-dropdown");
+
+      profileToggle?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        profileDropdown.classList.toggle("active");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (
+          !profileDropdown?.contains(e.target) &&
+          !profileToggle?.contains(e.target)
+        ) {
+          profileDropdown?.classList.remove("active");
+        }
+      });
+
+      const userData = JSON.parse(sessionStorage.getItem("currentUser"));
+      if (userData) {
+        document.getElementById("profile-name").textContent =
+          userData.username || "Administrador";
+        document.getElementById("profile-email").textContent =
+          userData.email || "admin@sistema.local";
+      }
+
+      const logoutBtn = document.getElementById("logout-btn");
+      const logoutModal = document.getElementById("logout-modal");
+      const logoutConfirmBtn = document.getElementById("logout-confirm-btn");
+      const logoutCancelBtn = document.getElementById("logout-cancel-btn");
+
+      function showLogoutModal() {
+        logoutModal.classList.add("active");
+      }
+
+      function closeLogoutModal() {
+        logoutModal.classList.remove("active");
+      }
+
+      function performLogout() {
+        closeLogoutModal();
+        const loadingOverlay = document.getElementById("logoutLoadingOverlay");
+        if (loadingOverlay) {
+          loadingOverlay.classList.remove("hidden");
+        }
+        setTimeout(() => {
+          sessionStorage.removeItem("currentUser");
+          sessionStorage.removeItem("loggedIn");
+          localStorage.removeItem("darkMode");
+          window.location.href = "index.html";
+        }, 1000);
+      }
+
+      logoutBtn?.addEventListener("click", showLogoutModal);
+      logoutConfirmBtn?.addEventListener("click", performLogout);
+      logoutCancelBtn?.addEventListener("click", closeLogoutModal);
     </script>
   </body>
 </html>
